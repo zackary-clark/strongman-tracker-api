@@ -8,7 +8,7 @@ const maxController = express();
 
 maxController.use(express.json());
 
-if (process.env.CLIENT_ORIGIN) maxController.use(cors({origin: process.env.CLIENT_ORIGIN}));
+// if (process.env.CLIENT_ORIGIN) maxController.use(cors({origin: process.env.CLIENT_ORIGIN}));
 
 maxController.get("/maxes", async (req: Request, res: Response) => {
     try {

@@ -4,6 +4,7 @@
 .env
 .data
 /bin/
+/generated/
 
 ### Frontend ###
 /src/main/resources/static
@@ -34,7 +35,6 @@ yarn-error.log*
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
 /nbdist/
 /.nb-gradle/
 

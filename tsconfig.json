@@ -4,6 +4,8 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "strict": true,
+        "useUnknownInCatchVariables": false,
+        "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "module": "commonjs",
         "moduleResolution": "node",
@@ -13,5 +15,5 @@
         "emitDecoratorMetadata": true
     },
     "include": ["src", "migrations", "./*.ts*"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "generated"]
 }
