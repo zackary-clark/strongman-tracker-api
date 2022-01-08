@@ -1,25 +1,14 @@
-import MaxRepo from "./repo";
-import { Max } from "./schema";
-
-// TODO: Implement singleton properly instead of this
-const maxRepo = new MaxRepo();
+import { maxRepo } from "./repo";
+import { CreateMaxInput, Max } from "./schema";
 
 class MaxService {
     public async index(): Promise<Max[]> {
         return await maxRepo.index();
     }
 
-    public async create(max: Max): Promise<Max | undefined> {
-        let ret;
-        // Catching and rethrowing seems to be the only way to get a repo error to pass up to the controller
-        // eslint-disable-next-line no-useless-catch
-        try {
-            ret = await maxRepo.create(max);
-        } catch (e) {
-            throw e;
-        }
-        return ret;
+    public async create(max: CreateMaxInput): Promise<Max> {
+        return await maxRepo.create(max);
     }
 }
 
-export default MaxService;
+export const maxService = new MaxService();
