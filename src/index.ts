@@ -1,17 +1,21 @@
-import mongoose from "mongoose";
+import { knex } from "knex";
 import api from "./api";
 
 const port = process.env.PORT || 8080;
-const databaseURI = process.env.DB_URI || "mongodb://127.0.0.1:27017/tracker";
+const databaseHost = process.env.DB_HOST || "127.0.0.1";
+const databasePort = process.env.DB_PORT || "5432";
+const databasePassword = process.env.DB_PASSWORD || "tracker";
 
-mongoose.connect(
-    databaseURI,
-    {useNewUrlParser: true, useUnifiedTopology: true},
-    err => {
-        if (err) {console.error("DB Connection Failed \n", err);}
-        else {console.log(`DB Connection to ${databaseURI} Successful!`);}
+export const pgClient = knex({
+    client: "pg",
+    connection: {
+        host : databaseHost,
+        port : parseInt(databasePort),
+        user : "postgres",
+        password : databasePassword,
+        database : "postgres"
     }
-);
+});
 
 api.listen(port, () => {
     console.log(`Strongman Tracker API listening on port ${port}!`);

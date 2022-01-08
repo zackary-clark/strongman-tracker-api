@@ -1,17 +1,10 @@
-import { getModelForClass, prop } from "@typegoose/typegoose";
-
-export class Max {
-    @prop({required: true})
-    public date!: Date;
-
-    @prop()
-    public squat1RM?: number;
-    @prop()
-    public bench1RM?: number;
-    @prop()
-    public deadlift1RM?: number;
-    @prop()
-    public press1RM?: number;
+export interface Max {
+    id: number;
+    date: Date;
+    squat1RM?: number;
+    bench1RM?: number;
+    deadlift1RM?: number;
+    press1RM?: number;
 }
 
-export const MaxModel = getModelForClass(Max);
+export type CreateMaxInput = Omit<Max, "id">;

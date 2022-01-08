@@ -4,7 +4,7 @@
     "license": "MIT",
     "scripts": {
         "deploy": "git push heroku master",
-        "dev": "docker start tracker-mongo && nodemon",
+        "dev": "nodemon",
         "postinstall": "tsc",
         "start": "node ./out/ts/src/index.js",
         "test": "jest"
@@ -13,7 +13,9 @@
         "@typegoose/typegoose": "7.4.1",
         "cors": "2.8.5",
         "express": "4.17.1",
-        "mongoose": "5.10.9"
+        "knex": "0.95.15",
+        "mongoose": "5.10.9",
+        "pg": "8.7.1"
     },
     "devDependencies": {
         "@types/cors": "2.8.7",
@@ -32,8 +34,5 @@
         "ts-jest": "26.4.1",
         "ts-node": "9.0.0",
         "typescript": "4.0.3"
-    },
-    "engines": {
-        "node": "14.12.0"
     }
 }
