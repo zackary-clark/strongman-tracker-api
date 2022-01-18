@@ -1,8 +1,5 @@
-import MaxRepo from "./repo";
+import { maxRepo } from "./repo";
 import { CreateMaxInput, Max } from "./schema";
-
-// TODO: Implement singleton properly instead of this
-const maxRepo = new MaxRepo();
 
 class MaxService {
     public async index(): Promise<Max[]> {
@@ -14,4 +11,4 @@ class MaxService {
     }
 }
 
-export default MaxService;
+export const maxService = new MaxService();

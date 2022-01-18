@@ -1,15 +1,15 @@
-import { pgClient } from "../index";
+import dbClient from "../dbClient";
 import { logError } from "../utils";
 import { CreateMaxInput, Max } from "./schema";
 
 class MaxRepo {
     public async index(): Promise<Max[]> {
-        return pgClient<Max>("max").select("*");
+        return dbClient<Max>("max").select("*");
     }
 
     public async create(max: CreateMaxInput): Promise<Max> {
         try {
-            return pgClient<Max>("max").insert({...max});
+            return dbClient<Max>("max").insert({...max});
         } catch (error) {
             logError(error, "Max Create Failed");
             throw error;
@@ -17,4 +17,4 @@ class MaxRepo {
     }
 }
 
-export default MaxRepo;
+export const maxRepo = new MaxRepo();

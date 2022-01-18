@@ -1,17 +1,14 @@
-import express, { Response, Request } from "express";
 import cors from "cors";
+import express, { Request, Response } from "express";
 import { logError } from "../utils";
-import { CreateMaxInput, Max } from "./schema";
-import MaxService from "./service";
+import { CreateMaxInput } from "./schema";
+import { maxService } from "./service";
 
 const maxController = express();
 
 maxController.use(express.json());
 
 if (process.env.CLIENT_ORIGIN) maxController.use(cors({origin: process.env.CLIENT_ORIGIN}));
-
-// TODO: Implement singleton properly instead of this
-const maxService = new MaxService();
 
 maxController.get("/maxes", async (req: Request, res: Response) => {
     try {
