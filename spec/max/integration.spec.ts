@@ -4,7 +4,7 @@ import { fakeMax } from "../fakeData";
 
 describe.skip("max", () => {
     describe("GET /maxes", () => {
-        it("should return array that comes back form maxService", async (done) => {
+        it("should return array that comes back form maxService", (done) => {
             request(api)
                 .get("/api/maxes")
                 .set("Accept", "application/json")
@@ -14,14 +14,14 @@ describe.skip("max", () => {
     });
 
     describe("POST /max", () => {
-        it("should add max in body to repo and return saved max with 200", async (done) => {
+        it("should add max in body to repo and return saved max with 200", (done) => {
             request(api)
                 .post("/api/max")
                 .send(fakeMax)
                 .expect(200, JSON.stringify(fakeMax), done);
         });
 
-        it("should return error message with 400 when validation fails", async (done) => {
+        it("should return error message with 400 when validation fails", (done) => {
             request(api)
                 .post("/api/max")
                 .send({})

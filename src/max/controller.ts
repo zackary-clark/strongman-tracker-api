@@ -23,12 +23,8 @@ maxController.post("/max", async (req: Request, res: Response) => {
         const product = await maxService.create(toMax(req.body));
         res.send(product);
     } catch (e) {
-        if (e.name === "ValidationError") {
-            res.status(400).send("Max Misshapen");
-        } else {
-            logError(e);
-            res.status(500).send();
-        }
+        logError(e);
+        res.status(500).send();
     }
 });
 
