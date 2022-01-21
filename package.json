@@ -1,13 +1,28 @@
 {
     "name": "strongman-tracker-api",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "license": "MIT",
     "scripts": {
-        "deploy": "git push heroku master",
+        "build": "yarn install",
         "dev": "nodemon",
-        "postinstall": "tsc",
-        "start": "node ./out/ts/src/index.js",
-        "test": "jest"
+        "docker:buildlocal": "yarn build && docker rmi -f zackaryclark/strongman-tracker-api && docker build ./ -t zackaryclark/strongman-tracker-api",
+        "docker:buildrelease": "yarn build && docker build ./ -t zackaryclark/strongman-tracker-api:latest -t zackaryclark/strongman-tracker-api:$npm_package_version",
+        "docker:pushrelease": "docker push zackaryclark/strongman-tracker-api:$npm_package_version && docker push zackaryclark/strongman-tracker-api:latest",
+        "docker:release": "yarn docker:buildrelease && yarn docker:pushrelease",
+        "git:pushtags": "git push --tags && git push",
+        "kubelocal:use": "kubectl config use-context docker-desktop",
+        "kubelocal:create": "kubectl create -f kubernetes/local-deployment.yml && kubectl apply -f kubernetes/local-nodeport.yml",
+        "kubelocal:start": "yarn kubelocal:use && yarn docker:buildlocal && yarn kubelocal:create",
+        "kubelocal:stop": "yarn kubelocal:use && kubectl delete deployment strongman-tracker-api --ignore-not-found && kubectl delete services strongman-tracker-api --ignore-not-found",
+        "kubeprod:release": "kubectl config use-context prod && kubectl rollout restart deployment strongman-tracker-api-deployment",
+        "migrate": "knex migrate:latest",
+        "migrate:rollback": "knex migrate:rollback",
+        "print:release": "echo -e \"\n\\033[0;32m  <==  Released API v$npm_package_version  ==>  \\033[0m\n\"",
+        "start": "yarn migrate && node ./out/ts/src/index.js",
+        "test": "jest",
+        "preversion": "yarn test",
+        "postversion": "yarn git:pushtags && yarn docker:release && sleep 5 && yarn kubeprod:release && yarn print:release",
+        "postinstall": "tsc"
     },
     "dependencies": {
         "cors": "2.8.5",
@@ -34,5 +49,6 @@
     },
     "resolutions": {
         "@types/serve-static": "^1.13.10"
-    }
+    },
+    "private": true
 }

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strongman-tracker-api
+  namespace: default
+  labels:
+    app: strongman-tracker-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: strongman-tracker-api
+  template:
+    metadata:
+      labels:
+        app: strongman-tracker-api
+    spec:
+      containers:
+        - name: strongman-tracker-api
+          image: zackaryclark/strongman-tracker-api
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: "PORT"
+              value: "8080"
+            - name: "DB_PORT"
+              value: "5432"
+            - name: "DB_HOST"
+              value: "mypostgres"
+            - name: "CLIENT_ORIGIN"
+              value: "http://localhost:32323"
+            - name: "DB_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  key: superUserPassword
+                  name: local-postgres-secret

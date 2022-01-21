@@ -12,12 +12,14 @@ module.exports = {
         }
     },
 
+    // TODO: What about real production? This works for docker-desktop only...
     production: {
-        client: "postgresql",
+        client: "pg",
         connection: {
-            database: "my_db",
-            user: "username",
-            password: "password"
+            host: "mypostgres",
+            database: "postgres",
+            user: "postgres",
+            password: "postgres"
         },
         pool: {
             min: 2,
