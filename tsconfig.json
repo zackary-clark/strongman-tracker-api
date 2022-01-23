@@ -12,6 +12,6 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
     },
-    "include": ["src", "spec", "migrations", "./*.ts*"],
+    "include": ["src", "migrations", "./*.ts*"],
     "exclude": ["node_modules"]
 }
