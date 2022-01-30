@@ -5,7 +5,7 @@ metadata:
   labels:
     app: strongman-tracker-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: strongman-tracker-api
@@ -14,6 +14,15 @@ spec:
       labels:
         app: strongman-tracker-api
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: size
+                    operator: In
+                    values:
+                      - large
       containers:
         - name: strongman-tracker-api
           image: zackaryclark/strongman-tracker-api:latest
