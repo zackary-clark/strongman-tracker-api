@@ -1,5 +1,5 @@
 FROM arm64v8/node:17
 ENV NODE_ENV=production
-RUN yarn install
+RUN npm install
 COPY . .
-CMD [ "yarn", "start" ]
+CMD [ "npm", "start" ]
