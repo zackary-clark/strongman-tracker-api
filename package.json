@@ -5,8 +5,8 @@
     "scripts": {
         "prebuild": "rm -rf ./out && npm install && npm run generate",
         "build": "tsc",
-        "predev": "npm install && npm run generate",
-        "dev": "nodemon",
+        "predev": "npm install",
+        "dev": "concurrently \"nodemon\" \"graphql-codegen --watch\"",
         "docker:buildlocal": "npm run build && docker rmi -f zackaryclark/strongman-tracker-api && docker build ./ -t zackaryclark/strongman-tracker-api",
         "docker:buildrelease": "npm run build && docker build ./ -t zackaryclark/strongman-tracker-api:latest -t zackaryclark/strongman-tracker-api:$npm_package_version",
         "docker:pushrelease": "docker push zackaryclark/strongman-tracker-api:$npm_package_version && docker push zackaryclark/strongman-tracker-api:latest",
@@ -48,6 +48,7 @@
         "@types/supertest": "2.0.11",
         "@typescript-eslint/eslint-plugin": "5.10.2",
         "@typescript-eslint/parser": "5.10.2",
+        "concurrently": "7.0.0",
         "eslint": "8.8.0",
         "eslint-plugin-import": "2.25.4",
         "jest": "27.4.7",

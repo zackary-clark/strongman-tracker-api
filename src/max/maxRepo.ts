@@ -1,17 +1,18 @@
+import { AddMaxInput, Max } from "../../generated/schema";
 import dbClient from "../dbClient";
 import { logError } from "../utils";
-import { CreateMaxInput, Max } from "./schema";
 
 class MaxRepo {
     public async index(): Promise<Max[]> {
         return dbClient<Max>("max").select("*");
     }
 
-    public async create(max: CreateMaxInput): Promise<Max> {
+    public async add(max: AddMaxInput): Promise<Max> {
         try {
-            return dbClient<Max>("max").insert({...max});
+            const insertedMaxArray = await dbClient<Max>("max").insert({...max}, "*");
+            return insertedMaxArray[0];
         } catch (error) {
-            logError(error, "Max Create Failed");
+            logError(error, "Add Max Failed");
             throw error;
         }
     }
