@@ -19,7 +19,7 @@ async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     });
     await server.start();
-    if (process.env.CLIENT_ORIGIN) app.use(cors({origin: process.env.CLIENT_ORIGIN}));
+    // if (process.env.CLIENT_ORIGIN) app.use(cors({origin: process.env.CLIENT_ORIGIN}));
     server.applyMiddleware({ app });
     await httpServer.listen(port);
     console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
