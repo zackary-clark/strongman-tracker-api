@@ -1,4 +1,5 @@
 import { Resolvers } from "../generated/schema";
+import { dateScalar } from "./dateScalar";
 import { maxRepo } from "./max/maxRepo";
 
 export const resolvers: Resolvers = {
@@ -12,5 +13,6 @@ export const resolvers: Resolvers = {
             const createdMax = await maxRepo.add(args.input);
             return { max: createdMax };
         }
-    }
+    },
+    Date: dateScalar
 };
