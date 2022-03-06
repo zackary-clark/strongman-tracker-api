@@ -4,6 +4,7 @@ import { logError } from "../utils";
 
 const TABLE_NAME = "max";
 
+// TODO: Use SQLDataSource rather than self-rolling the "repo"
 class MaxRepo {
 
     public async index(): Promise<Max[]> {

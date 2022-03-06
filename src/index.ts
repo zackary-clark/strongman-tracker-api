@@ -6,7 +6,7 @@ import express from "express";
 import { DocumentNode } from "graphql";
 import { Resolvers } from "../generated/schema";
 import { resolvers } from "./resolvers";
-import typeDefs from "./schema";
+import typeDefs from "./schema/baseSchema";
 
 const port = process.env.PORT || 8080;
 
