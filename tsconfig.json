@@ -8,6 +8,7 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "module": "commonjs",
+        "target": "ES2021",
         "moduleResolution": "node",
         "outDir": "./out/ts/",
         "removeComments": true,

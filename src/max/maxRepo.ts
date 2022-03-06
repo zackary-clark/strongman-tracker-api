@@ -1,19 +1,17 @@
+import { SQLDataSource } from "datasource-sql";
 import { AddMaxInput, Max } from "../../generated/schema";
-import dbClient from "../dbClient";
 import { logError } from "../utils";
 
 const TABLE_NAME = "max";
 
-// TODO: Use SQLDataSource rather than self-rolling the "repo"
-class MaxRepo {
-
-    public async index(): Promise<Max[]> {
-        return dbClient<Max>(TABLE_NAME).select("*");
+export class MaxRepo extends SQLDataSource {
+    public index(): Max[] {
+        return this.knex.select("*").from(TABLE_NAME);
     }
 
     public async add(max: AddMaxInput): Promise<Max> {
         try {
-            const insertedMaxArray = await dbClient<Max>(TABLE_NAME).insert({...max}, "*");
+            const insertedMaxArray = await this.knex.into(TABLE_NAME).insert({...max}, "*");
             return insertedMaxArray[0];
         } catch (error) {
             logError(error, "Add Max Failed");
@@ -23,7 +21,7 @@ class MaxRepo {
 
     public async delete(id: number): Promise<boolean> {
         try {
-            await dbClient<Max>(TABLE_NAME).where("id", id).del();
+            await this.knex.from(TABLE_NAME).where("id", id).del();
             return true;
         } catch (error) {
             logError(error, "Delete Max Failed");
@@ -31,5 +29,3 @@ class MaxRepo {
         }
     }
 }
-
-export const maxRepo = new MaxRepo();

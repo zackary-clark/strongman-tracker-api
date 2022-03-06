@@ -5,18 +5,20 @@ import cors from "cors";
 import express from "express";
 import { DocumentNode } from "graphql";
 import { Resolvers } from "../generated/schema";
+import { dataSources, Sources } from "./dataSources";
 import { resolvers } from "./resolvers";
 import typeDefs from "./schema/baseSchema";
 
 const port = process.env.PORT || 8080;
 
-async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
+async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers, dataSources: () => Sources) {
     const app = express();
     const httpServer = http.createServer(app);
     const server = new ApolloServer({
         typeDefs,
         resolvers,
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+        dataSources
     });
     await server.start();
     if (process.env.CLIENT_ORIGIN) app.use(cors({origin: process.env.CLIENT_ORIGIN}));
@@ -25,4 +27,4 @@ async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
     console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
 }
 
-startApolloServer(typeDefs, resolvers);
+startApolloServer(typeDefs, resolvers, dataSources);
