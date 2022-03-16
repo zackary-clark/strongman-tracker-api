@@ -1,21 +1,19 @@
 import { Resolvers } from "../generated/schema";
 import { dateScalar } from "./dateScalar";
+import { liftMutations } from "./lift/liftResolvers";
+import { maxMutations, maxQueries } from "./max/maxResolvers";
+import { workoutMutations, workoutQueries, workoutResolvers } from "./workout/workoutResolvers";
 
 export const resolvers: Resolvers = {
     Query: {
-        maxes: (parent, args, { dataSources }) => {
-            return dataSources.maxRepo.index();
-        },
+        ...maxQueries,
+        ...workoutQueries
     },
     Mutation: {
-        addMax: async (parent, args, {dataSources}) => {
-            const createdMax = await dataSources.maxRepo.add(args.input);
-            return {max: createdMax, success: !!createdMax};
-        },
-        deleteMax: async (parent, args, {dataSources}) => {
-            const success = await dataSources.maxRepo.delete(args.input.id);
-            return {success};
-        }
+        ...maxMutations,
+        ...workoutMutations,
+        ...liftMutations
     },
+    Workout: workoutResolvers,
     Date: dateScalar
 };

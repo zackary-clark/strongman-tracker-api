@@ -36,7 +36,7 @@ export const workoutSchema = gql`
     }
     
     input AddLiftInput {
-        workoutId: Int!
+        workout: Int!
         name: String!
         reps: Int!
         sets: Int!
@@ -46,7 +46,7 @@ export const workoutSchema = gql`
     type AddLiftPayload implements MutationPayload {
         success: Boolean!
         lift: Lift
-        workoutId: Int
+        workout: Int
     }
     
     input DeleteWorkoutInput {
