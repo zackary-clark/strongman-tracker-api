@@ -18,6 +18,7 @@ async function startApolloServer(typeDefs: string[], resolvers: Resolvers, dataS
         resolvers,
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
         dataSources
+        // TODO: Include csrfPrevention: true ?
     });
     await server.start();
     if (process.env.CLIENT_ORIGIN) app.use(cors({origin: [process.env.CLIENT_ORIGIN, "https://studio.apollographql.com"]}));
