@@ -12,6 +12,10 @@ export class WorkoutRepo extends SQLDataSource {
         return this.knex.select("*").from(WORKOUT);
     }
 
+    public findOneWorkout(id: number): Workout {
+        return this.knex.select("*").where("id", id).from(WORKOUT).first();
+    }
+
     public async addWorkout(workout: AddWorkoutInput): Promise<Workout> {
         try {
             const insertedWorkoutArray = await this.knex.into(WORKOUT).insert({...workout}, "*");

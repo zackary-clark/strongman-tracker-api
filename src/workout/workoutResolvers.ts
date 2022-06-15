@@ -3,6 +3,9 @@ import { MutationResolvers, QueryResolvers, WorkoutResolvers } from "../../gener
 export const workoutQueries: Partial<QueryResolvers> = {
     workouts: (parent, args, {dataSources}) => {
         return dataSources.workoutRepo.findAllWorkouts();
+    },
+    workout: (parent, args, {dataSources}) => {
+        return dataSources.workoutRepo.findOneWorkout(args.input.id);
     }
 };
 
