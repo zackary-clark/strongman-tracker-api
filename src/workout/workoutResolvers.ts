@@ -16,7 +16,7 @@ export const workoutMutations: Partial<MutationResolvers> = {
     },
     deleteWorkout: async (parent, args, {dataSources}) => {
         const success = await dataSources.workoutRepo.deleteWorkoutAndAssociatedLifts(args.input.id);
-        return {success};
+        return {success, id: args.input.id};
     }
 };
 

@@ -8,6 +8,6 @@ export const liftMutations: Partial<MutationResolvers> = {
     },
     deleteLift: async (parent, args, {dataSources}) => {
         const success = await dataSources.liftRepo.deleteLift(args.input.id);
-        return {success};
+        return {success, id: args.input.id};
     }
 };

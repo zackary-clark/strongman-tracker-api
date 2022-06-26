@@ -13,6 +13,6 @@ export const maxMutations: Partial<MutationResolvers> = {
     },
     deleteMax: async (parent, args, {dataSources}) => {
         const success = await dataSources.maxRepo.delete(args.input.id);
-        return {success};
+        return {success, id: args.input.id};
     }
 };
