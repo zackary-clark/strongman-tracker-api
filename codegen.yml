@@ -4,6 +4,9 @@ generates:
         config:
             useIndexSignature: true
             contextType: ../src/dataSources#Context
+            strictScalars: true
+            scalars:
+              Date: '../src/scalarTypes#DateScalar'
         plugins:
             - typescript
             - typescript-resolvers
