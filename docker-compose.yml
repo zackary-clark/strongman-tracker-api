@@ -13,7 +13,6 @@ services:
     image: zackaryclark/strongman-tracker-api:latest
     depends_on:
       - db
-    restart: always
     ports:
       - '8080:8080'
     networks:

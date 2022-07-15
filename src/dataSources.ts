@@ -3,10 +3,6 @@ import { LiftRepo } from "./lift/liftRepo";
 import { MaxRepo } from "./max/maxRepo";
 import { WorkoutRepo } from "./workout/workoutRepo";
 
-export type Context = {
-    dataSources: Sources
-};
-
 export type Sources = {
     maxRepo: MaxRepo;
     workoutRepo: WorkoutRepo;

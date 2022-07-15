@@ -3,7 +3,7 @@ generates:
     ./generated/schema.ts:
         config:
             useIndexSignature: true
-            contextType: ../src/dataSources#Context
+            contextType: ../src/context#Context
             strictScalars: true
             scalars:
               Date: '../src/scalarTypes#DateScalar'
