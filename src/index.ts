@@ -13,6 +13,7 @@ const port = process.env.PORT || 8080;
 const origin = process.env.CLIENT_ORIGIN;
 const corsUrls = ["https://studio.apollographql.com"];
 if (origin) corsUrls.push(origin);
+else corsUrls.push("http://localhost:8081");
 
 async function startApolloServer() {
     const app = express();
@@ -23,7 +24,8 @@ async function startApolloServer() {
         resolvers,
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
         dataSources,
-        context: getContextFunction(keycloak)
+        context: getContextFunction(keycloak),
+        csrfPrevention: true
     });
 
     await server.start();

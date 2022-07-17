@@ -67,8 +67,8 @@ spec:
                 secretKeyRef:
                   key: kcUrl
                   name: strongman-tracker-secret
-            - name: "KC_CLIENT_ID"
+            - name: "KC_RESOURCE"
               valueFrom:
                 secretKeyRef:
-                  key: kcClientId
+                  key: kcResource
                   name: strongman-tracker-secret
