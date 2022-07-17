@@ -1,6 +1,6 @@
 {
     "name": "strongman-tracker-api",
-    "version": "0.1.14",
+    "version": "0.1.15",
     "license": "MIT",
     "scripts": {
         "prebuild": "rm -rf ./out && npm install && npm run generate",
