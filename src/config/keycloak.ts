@@ -10,7 +10,7 @@ export const generateKeycloak = (): Keycloak.Keycloak => {
         {
             realm,
             "auth-server-url": url,
-            "ssl-required": "external",
+            "ssl-required": "none",
             "bearer-only": true,
             resource,
             "confidential-port": 0,
