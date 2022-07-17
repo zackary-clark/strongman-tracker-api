@@ -23,8 +23,7 @@ async function startApolloServer() {
         resolvers,
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
         dataSources,
-        context: getContextFunction(keycloak),
-        csrfPrevention: true
+        context: getContextFunction(keycloak)
     });
 
     await server.start();
