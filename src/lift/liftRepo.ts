@@ -1,6 +1,6 @@
 import { SQLDataSource } from "datasource-sql";
 import { AddLiftInput, Lift } from "../../generated/schema";
-import { logError } from "../utils";
+import { logError } from "../utils/logs";
 
 const LIFT = "lift";
 

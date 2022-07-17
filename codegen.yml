@@ -3,10 +3,10 @@ generates:
     ./generated/schema.ts:
         config:
             useIndexSignature: true
-            contextType: ../src/context#Context
+            contextType: ../src/config/apollo/context#Context
             strictScalars: true
             scalars:
-              Date: '../src/scalarTypes#DateScalar'
+              Date: '../src/config/apollo/scalarTypes#DateScalar'
         plugins:
             - typescript
             - typescript-resolvers

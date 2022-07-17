@@ -1,6 +1,6 @@
 import { SQLDataSource } from "datasource-sql";
 import { AddMaxInput, Max } from "../../generated/schema";
-import { logError } from "../utils";
+import { logError } from "../utils/logs";
 
 const TABLE_NAME = "max";
 

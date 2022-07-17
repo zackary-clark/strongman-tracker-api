@@ -57,3 +57,18 @@ spec:
                 secretKeyRef:
                   key: dbUserPassword
                   name: strongman-tracker-secret
+            - name: "KC_REALM"
+              valueFrom:
+                secretKeyRef:
+                  key: kcRealm
+                  name: strongman-tracker-secret
+            - name: "KC_URL"
+              valueFrom:
+                secretKeyRef:
+                  key: kcUrl
+                  name: strongman-tracker-secret
+            - name: "KC_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  key: kcClientId
+                  name: strongman-tracker-secret

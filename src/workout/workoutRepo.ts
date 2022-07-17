@@ -1,7 +1,7 @@
 import { SQLDataSource } from "datasource-sql";
 import { Knex } from "knex";
 import { AddWorkoutInput, Workout } from "../../generated/schema";
-import { logError } from "../utils";
+import { logError } from "../utils/logs";
 import Transaction = Knex.Transaction;
 
 const WORKOUT = "workout";

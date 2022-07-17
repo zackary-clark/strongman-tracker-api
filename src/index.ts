@@ -3,28 +3,21 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-express";
 import cors from "cors";
 import express from "express";
-import Keycloak from "keycloak-connect";
-import { getContextFunction } from "./context";
-import { dataSources } from "./dataSources";
-import { resolvers } from "./resolvers";
-import { typeDefs } from "./typeDefs";
+import { getContextFunction } from "./config/apollo/context";
+import { dataSources } from "./config/apollo/dataSources";
+import { generateKeycloak } from "./config/keycloak";
+import { resolvers } from "./config/apollo/resolvers";
+import { typeDefs } from "./config/apollo/typeDefs";
 
 const port = process.env.PORT || 8080;
 const origin = process.env.CLIENT_ORIGIN;
 const corsUrls = ["https://studio.apollographql.com"];
 if (origin) corsUrls.push(origin);
 
-Keycloak.prototype.redirectToLogin = function() {
-    // By default, Keycloak attempts to redirect unauthenticated requests to the login page.
-    // We want everything login(or out) related to go through the client, for now.
-    // This causes unauthenticated requests to get a 403: Forbidden, instead of redirecting.
-    return false;
-};
-
 async function startApolloServer() {
     const app = express();
     const httpServer = http.createServer(app);
-    const keycloak = new Keycloak({});
+    const keycloak = generateKeycloak();
     const server = new ApolloServer({
         typeDefs,
         resolvers,
