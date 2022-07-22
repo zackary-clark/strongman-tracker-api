@@ -10,8 +10,14 @@ If that is *not* the case, qemu can be used to emulate ARM64, and minikube can b
 
 ### TS Node
 
-1. `npm install` to install dependencies
-2. `npm run dev` to run on `localhost:8080`
+1. Stop `latest-api` docker container, if it's running.
+2. `npm install` to install dependencies
+3. `npm run dev` to run on `localhost:8082`
+
+### Docker Compose
+
+1. Prerequisite: `/etc/hosts` needs the line `127.0.0.1 keycloak` to allow keycloak to work from apps both inside and outside docker-compose.
+2. `docker-compose up -d` to spin up PostgreSQL, Keycloak, and Latest API
 
 ### Docker Desktop K8s
 
