@@ -5,13 +5,13 @@ import { logError } from "../utils/logs";
 const LIFT = "lift";
 
 export class LiftRepo extends SQLDataSource {
-    public findAllLiftsWithWorkoutId(workoutId: number): Lift[] {
-        return this.knex.select("*").where("workout", workoutId).from(LIFT);
+    public findAllLiftsWithWorkoutId(workoutId: number, userId: string): Lift[] {
+        return this.knex.select("*").where("workout", workoutId).andWhere("user_id", userId).from(LIFT);
     }
 
-    public async addLift(lift: AddLiftInput): Promise<Lift> {
+    public async addLift(lift: AddLiftInput, userId: string): Promise<Lift> {
         try {
-            const insertedLiftArray = await this.knex.into(LIFT).insert({...lift}, "*");
+            const insertedLiftArray = await this.knex.into(LIFT).insert({...lift, ["user_id"]: userId}, "*");
             return insertedLiftArray[0];
         } catch (error) {
             logError(error, "Add Lift Failed");
@@ -19,9 +19,9 @@ export class LiftRepo extends SQLDataSource {
         }
     }
 
-    public async deleteLift(id: number): Promise<boolean> {
+    public async deleteLift(id: number, userId: string): Promise<boolean> {
         try {
-            await this.knex.from(LIFT).where("id", id).del();
+            await this.knex.from(LIFT).where("id", id).andWhere("user_id", userId).del();
             return true;
         } catch (error) {
             logError(error, "Delete Lift Failed");

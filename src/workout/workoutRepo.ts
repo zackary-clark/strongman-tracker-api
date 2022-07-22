@@ -8,17 +8,17 @@ const WORKOUT = "workout";
 const LIFT = "lift";
 
 export class WorkoutRepo extends SQLDataSource {
-    public findAllWorkouts(): Workout[] {
-        return this.knex.select("*").from(WORKOUT);
+    public findAllWorkouts(userId: string): Workout[] {
+        return this.knex.select("*").where("user_id", userId).from(WORKOUT);
     }
 
-    public findOneWorkout(id: number): Workout {
-        return this.knex.select("*").where("id", id).from(WORKOUT).first();
+    public findOneWorkout(id: number, userId: string): Workout {
+        return this.knex.select("*").where("id", id).andWhere("user_id", userId).from(WORKOUT).first();
     }
 
-    public async addWorkout(workout: AddWorkoutInput): Promise<Workout> {
+    public async addWorkout(workout: AddWorkoutInput, userId: string): Promise<Workout> {
         try {
-            const insertedWorkoutArray = await this.knex.into(WORKOUT).insert({...workout}, "*");
+            const insertedWorkoutArray = await this.knex.into(WORKOUT).insert({...workout, ["user_id"]: userId}, "*");
             return insertedWorkoutArray[0];
         } catch (error) {
             logError(error, "Add Workout Failed");
@@ -26,11 +26,11 @@ export class WorkoutRepo extends SQLDataSource {
         }
     }
 
-    public async deleteWorkoutAndAssociatedLifts(id: number): Promise<boolean> {
+    public async deleteWorkoutAndAssociatedLifts(id: number, userId: string): Promise<boolean> {
         try {
             await this.knex.transaction(async (trx: Transaction) => {
-                await trx(LIFT).where("workout", id).del();
-                await trx(WORKOUT).where("id", id).del();
+                await trx(LIFT).where("workout", id).andWhere("user_id", userId).del();
+                await trx(WORKOUT).where("id", id).andWhere("user_id", userId).del();
             });
             return true;
         } catch (error) {
