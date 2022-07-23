@@ -20,6 +20,7 @@
         "kubelocal:stop": "npm run kubelocal:use && kubectl delete deployment strongman-tracker-api --ignore-not-found && kubectl delete services strongman-tracker-api --ignore-not-found",
         "kubeprod:release": "kubectl config use-context prod && kubectl rollout restart deployment strongman-tracker-api-deployment",
         "migrate": "knex migrate:latest",
+        "migrate:create": "knex migrate:make -x ts",
         "migrate:rollback": "knex migrate:rollback",
         "print:release": "echo -e \"\n\\033[0;32m  <==  Released API v$npm_package_version  ==>  \\033[0m\n\"",
         "prestart": "npm run migrate",

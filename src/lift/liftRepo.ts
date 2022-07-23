@@ -5,7 +5,7 @@ import { logError } from "../utils/logs";
 const LIFT = "lift";
 
 export class LiftRepo extends SQLDataSource {
-    public findAllLiftsWithWorkoutId(workoutId: number, userId: string): Lift[] {
+    public findAllLiftsWithWorkoutId(workoutId: string, userId: string): Lift[] {
         return this.knex.select("*").where("workout", workoutId).andWhere("user_id", userId).from(LIFT);
     }
 
@@ -19,7 +19,7 @@ export class LiftRepo extends SQLDataSource {
         }
     }
 
-    public async deleteLift(id: number, userId: string): Promise<boolean> {
+    public async deleteLift(id: string, userId: string): Promise<boolean> {
         try {
             await this.knex.from(LIFT).where("id", id).andWhere("user_id", userId).del();
             return true;

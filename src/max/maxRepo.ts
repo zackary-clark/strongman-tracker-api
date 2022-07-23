@@ -19,7 +19,7 @@ export class MaxRepo extends SQLDataSource {
         }
     }
 
-    public async delete(id: number, userId: string): Promise<boolean> {
+    public async delete(id: string, userId: string): Promise<boolean> {
         try {
             await this.knex.from(TABLE_NAME).where("id", id).andWhere("user_id", userId).del();
             return true;

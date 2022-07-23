@@ -32,7 +32,7 @@
         "import/order": ["warn"],
         "import/newline-after-import": ["warn"],
         "import/no-duplicates": ["warn"],
-        "import/no-cycle": ["warn"],
+        "import/no-cycle": ["off"],
         "import/no-namespace": "off",
         "semi": "off",
         "@typescript-eslint/semi": ["warn", "always"],

@@ -12,7 +12,7 @@ export class WorkoutRepo extends SQLDataSource {
         return this.knex.select("*").where("user_id", userId).from(WORKOUT);
     }
 
-    public findOneWorkout(id: number, userId: string): Workout {
+    public findOneWorkout(id: string, userId: string): Workout {
         return this.knex.select("*").where("id", id).andWhere("user_id", userId).from(WORKOUT).first();
     }
 
@@ -26,7 +26,7 @@ export class WorkoutRepo extends SQLDataSource {
         }
     }
 
-    public async deleteWorkoutAndAssociatedLifts(id: number, userId: string): Promise<boolean> {
+    public async deleteWorkoutAndAssociatedLifts(id: string, userId: string): Promise<boolean> {
         try {
             await this.knex.transaction(async (trx: Transaction) => {
                 await trx(LIFT).where("workout", id).andWhere("user_id", userId).del();
