@@ -3,8 +3,13 @@ import { AddMaxInput, Max, MaxType, MutationResolvers, QueryResolvers } from "..
 
 export const maxQueries: Partial<QueryResolvers> = {
     maxes: async (parent, args, { dataSources, user }) => {
-        const maxEntities = await dataSources.maxRepo.index(user.id);
-        console.log(maxEntities);
+        let maxEntities;
+        const input = args.input;
+        if (input) {
+            maxEntities = await dataSources.maxRepo.filteredAndSorted(input.filter.type, input.sort.date, user.id);
+        } else {
+            maxEntities = await dataSources.maxRepo.index(user.id);
+        }
         const maxes: Max[] = maxEntities.map((max: Max) => ({
             id: max.id,
             date: max.date,

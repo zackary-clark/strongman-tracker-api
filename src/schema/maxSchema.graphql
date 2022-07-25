@@ -1,5 +1,5 @@
 extend type Query {
-    maxes: [Max!]!
+    maxes(input: MaxesInput): [Max!]!
 }
 
 extend type Mutation {
@@ -23,6 +23,19 @@ type Max {
     bench1RM: Float
     deadlift1RM: Float
     press1RM: Float
+}
+
+input MaxesInput {
+    filter: MaxFilter!
+    sort: MaxSort!
+}
+
+input MaxFilter {
+    type: MaxType!
+}
+
+input MaxSort {
+    date: Sort!
 }
 
 input AddMaxInput {

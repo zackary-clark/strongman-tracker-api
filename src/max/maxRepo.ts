@@ -1,12 +1,23 @@
 import { SQLDataSource } from "datasource-sql";
-import { AddMaxInput, Max } from "../../generated/schema";
+import { AddMaxInput, Max, MaxType, Sort } from "../../generated/schema";
 import { logError } from "../utils/logs";
 
 const TABLE_NAME = "max";
 
 export class MaxRepo extends SQLDataSource {
-    public index(userId: string): Max[] {
-        return this.knex.select("*").from(TABLE_NAME).where("user_id", userId);
+    public async index(userId: string): Promise<Max[]> {
+        return this.knex
+            .select("*").from(TABLE_NAME)
+            .where("user_id", userId)
+            .orderBy("date", Sort.Desc);
+    }
+
+    public async filteredAndSorted(type: MaxType, dateSort: Sort, userId: string): Promise<Max[]> {
+        return this.knex
+            .select("*").from(TABLE_NAME)
+            .where("user_id", userId)
+            .andWhere("type", type)
+            .orderBy("date", dateSort);
     }
 
     public async add(max: AddMaxInput, userId: string): Promise<Max> {
