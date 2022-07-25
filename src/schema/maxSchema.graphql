@@ -7,9 +7,18 @@ extend type Mutation {
     deleteMax(input: DeleteMaxInput!): DeleteMaxPayload
 }
 
+enum MaxType {
+    bench
+    deadlift
+    press
+    squat
+}
+
 type Max {
     id: ID!
     date: Date!
+    weight: Int!
+    type: MaxType!
     squat1RM: Float
     bench1RM: Float
     deadlift1RM: Float
@@ -18,6 +27,8 @@ type Max {
 
 input AddMaxInput {
     date: Date!
+    weight: Int
+    type: MaxType
     squat1RM: Float
     bench1RM: Float
     deadlift1RM: Float
