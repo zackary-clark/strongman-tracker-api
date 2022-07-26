@@ -5,8 +5,11 @@ import { logError } from "../utils/logs";
 const LIFT = "lift";
 
 export class LiftRepo extends SQLDataSource {
-    public findAllLiftsWithWorkoutId(workoutId: string, userId: string): Lift[] {
-        return this.knex.select("*").where("workout", workoutId).andWhere("user_id", userId).from(LIFT);
+    public async findAllLiftsWithWorkoutId(workoutId: string, userId: string): Promise<Lift[]> {
+        return this.knex
+            .select("*").from(LIFT)
+            .where("workout", workoutId)
+            .andWhere("user_id", userId);
     }
 
     public async addLift(lift: AddLiftInput, userId: string): Promise<Lift> {

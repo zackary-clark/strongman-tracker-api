@@ -8,11 +8,13 @@ const WORKOUT = "workout";
 const LIFT = "lift";
 
 export class WorkoutRepo extends SQLDataSource {
-    public findAllWorkouts(userId: string): Workout[] {
-        return this.knex.select("*").where("user_id", userId).from(WORKOUT);
+    public async findAllWorkouts(userId: string): Promise<Workout[]> {
+        return this.knex
+            .select("*").from(WORKOUT)
+            .where("user_id", userId);
     }
 
-    public findOneWorkout(id: string, userId: string): Workout {
+    public async findOneWorkout(id: string, userId: string): Promise<Workout> {
         return this.knex.select("*").where("id", id).andWhere("user_id", userId).from(WORKOUT).first();
     }
 

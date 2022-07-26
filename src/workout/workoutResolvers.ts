@@ -1,11 +1,11 @@
 import { MutationResolvers, QueryResolvers, WorkoutResolvers } from "../../generated/schema";
 
 export const workoutQueries: Partial<QueryResolvers> = {
-    workouts: (parent, args, { dataSources, user }) => {
-        return dataSources.workoutRepo.findAllWorkouts(user.id);
+    workouts: async (parent, args, { dataSources, user }) => {
+        return await dataSources.workoutRepo.findAllWorkouts(user.id);
     },
-    workout: (parent, args, { dataSources, user }) => {
-        return dataSources.workoutRepo.findOneWorkout(args.input.id, user.id);
+    workout: async (parent, args, { dataSources, user }) => {
+        return await dataSources.workoutRepo.findOneWorkout(args.input.id, user.id);
     }
 };
 
@@ -22,6 +22,6 @@ export const workoutMutations: Partial<MutationResolvers> = {
 
 export const workoutResolvers: WorkoutResolvers = {
     lifts: async (parent, args, { dataSources, user }) => {
-        return dataSources.liftRepo.findAllLiftsWithWorkoutId(parent.id, user.id);
+        return await dataSources.liftRepo.findAllLiftsWithWorkoutId(parent.id, user.id);
     }
 };
