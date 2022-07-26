@@ -19,10 +19,6 @@ type Max {
     date: Date!
     weight: Int!
     type: MaxType!
-    squat1RM: Float
-    bench1RM: Float
-    deadlift1RM: Float
-    press1RM: Float
 }
 
 input MaxesInput {
@@ -40,12 +36,8 @@ input MaxSort {
 
 input AddMaxInput {
     date: Date!
-    weight: Int
-    type: MaxType
-    squat1RM: Float
-    bench1RM: Float
-    deadlift1RM: Float
-    press1RM: Float
+    weight: Int!
+    type: MaxType!
 }
 
 type AddMaxPayload implements MutationPayload {
