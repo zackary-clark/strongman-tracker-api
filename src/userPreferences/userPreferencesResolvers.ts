@@ -1,4 +1,5 @@
-import { MutationResolvers, QueryResolvers } from "../../generated/schema";
+import { MutationResolvers, QueryResolvers, UserPreferences, UserPreferencesEditPayload } from "../../generated/schema";
+import { UserPreferencesRepo } from "./userPreferencesRepo";
 
 export const userPreferencesQueries: Partial<QueryResolvers> = {
     preferences: async (parent, args, { dataSources, user }) => {
@@ -8,14 +9,33 @@ export const userPreferencesQueries: Partial<QueryResolvers> = {
 
 export const userPreferencesMutations: Partial<MutationResolvers> = {
     changeWeightUnitPreference: async (parent, args, { dataSources, user }) => {
-        const initialPreferences = await dataSources.userPreferencesRepo.findOrCreate(user.id);
-        const savedPreferences = await dataSources.userPreferencesRepo.edit(
+        return await editPreference(
+            dataSources.userPreferencesRepo,
             user.id,
-            {
-                ...initialPreferences,
-                weightUnit: args.input.weightUnit
-            }
+            { weightUnit: args.input.weightUnit }
         );
-        return { success: !!savedPreferences, preferences: savedPreferences };
-    }
+    },
+    changeLengthUnitPreference: async (parent, args, { dataSources, user }) =>{
+        return await editPreference(
+            dataSources.userPreferencesRepo,
+            user.id,
+            { lengthUnit: args.input.lengthUnit }
+        );
+    },
+};
+
+const editPreference = async (
+    repo: UserPreferencesRepo,
+    userId: string,
+    updatedFields: Partial<UserPreferences>
+): Promise<UserPreferencesEditPayload> => {
+    const initialPreferences = await repo.findOrCreate(userId);
+    const savedPreferences = await repo.edit(
+        userId,
+        {
+            ...initialPreferences,
+            ...updatedFields,
+        }
+    );
+    return { success: !!savedPreferences, preferences: savedPreferences };
 };
