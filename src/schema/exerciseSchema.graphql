@@ -1,0 +1,44 @@
+extend type Query {
+    exercises(input: ExercisesInput): [Exercise!]!
+    exercise(input: SingleExerciseInput!): Exercise
+}
+
+type Exercise {
+    id: ID!
+    name: String!
+    description: String
+    focusGroups: [MuscleGroup!]!
+}
+
+input SingleExerciseInput {
+    id: ID!
+}
+
+input ExercisesInput {
+    filter: ExerciseFilter!
+    sort: ExerciseSort!
+}
+
+input ExerciseFilter {
+    focusGroup: MuscleGroup!
+}
+
+input ExerciseSort {
+    name: Sort!
+}
+
+enum MuscleGroup {
+    abs
+    biceps
+    butt
+    calves
+    chest
+    forearms
+    hamstrings
+    lowerBack
+    quads
+    shoulders
+    traps
+    triceps
+    upperBack
+}
