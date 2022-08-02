@@ -1,31 +1,60 @@
 import { SQLDataSource } from "datasource-sql";
-import { Exercise, MuscleGroup, Sort } from "../../generated/schema";
+import { AddExerciseInput, Exercise, MuscleGroup, Sort } from "../../generated/schema";
+import { logError } from "../utils/logs";
 import ExerciseMapper from "./exerciseMapper";
 
 const TABLE = "exercise";
 
 export class ExerciseRepo extends SQLDataSource {
-    public async index(): Promise<Exercise[]> {
+    public async index(userId: string): Promise<Exercise[]> {
         const exerciseEntities = await this.knex
             .select("*").from(TABLE)
+            .where("user_id", userId)
+            .orWhere("custom", false)
             .orderBy("name", Sort.Asc);
         return exerciseEntities.map(ExerciseMapper.toQL);
     }
 
-    public async filteredAndSorted(focusGroup: MuscleGroup, nameSort: Sort): Promise<Exercise[]> {
+    public async filteredAndSorted(userId: string, nameSort: Sort, focusGroup: MuscleGroup | null, custom: boolean | null): Promise<Exercise[]> {
         const exerciseEntities = await this.knex
             .select("*").from(TABLE)
-            .whereRaw("? = ANY(focus_groups)", focusGroup)
+            .modify((queryBuilder) => {
+                if (focusGroup !== null) {
+                    queryBuilder.whereRaw("? = ANY(focus_groups)", focusGroup);
+                }
+                if (custom === true) {
+                    queryBuilder.where("custom", true);
+                    queryBuilder.andWhere("user_id", userId);
+                }
+                if (custom === false) {
+                    queryBuilder.where("custom", false);
+                }
+                if (custom === null) {
+                    queryBuilder.where("custom", false);
+                    queryBuilder.orWhere("user_id", userId);
+                }
+            })
             .orderBy("name", nameSort);
         return exerciseEntities.map(ExerciseMapper.toQL);
     }
 
-    public async findOneExercise(id: string): Promise<Exercise> {
+    public async findOneExercise(userId: string, id: string): Promise<Exercise> {
         return ExerciseMapper.toQL(
             await this.knex
                 .select("*").from(TABLE)
                 .where("id", id)
+                .andWhereRaw("custom = false OR user_id = ?", userId)
                 .first()
         );
+    }
+
+    public async createCustomExercise(userId: string, input: AddExerciseInput): Promise<Exercise> {
+        try {
+            const insertedEntities = await this.knex.into(TABLE).insert(ExerciseMapper.toEntity({...input}, userId), "*");
+            return ExerciseMapper.toQL(insertedEntities[0]);
+        } catch (error) {
+            logError(error, "Add Exercise Failed");
+            throw error;
+        }
     }
 }

@@ -3,6 +3,10 @@ extend type Query {
     exercise(input: SingleExerciseInput!): Exercise
 }
 
+extend type Mutation {
+    addExercise(input: AddExerciseInput!): AddExercisePayload
+}
+
 type Exercise {
     id: ID!
     name: String!
@@ -20,11 +24,23 @@ input ExercisesInput {
 }
 
 input ExerciseFilter {
-    focusGroup: MuscleGroup!
+    focusGroup: MuscleGroup
+    custom: Boolean
 }
 
 input ExerciseSort {
     name: Sort!
+}
+
+input AddExerciseInput {
+    name: String!
+    description: String
+    focusGroups: [MuscleGroup!]!
+}
+
+type AddExercisePayload implements MutationPayload {
+    success: Boolean!
+    exercise: Exercise
 }
 
 enum MuscleGroup {

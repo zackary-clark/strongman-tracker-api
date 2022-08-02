@@ -95,7 +95,12 @@ export async function seed(knex: Knex): Promise<void> {
         return;
     }
 
-    await knex(TABLE).insert(exercises.map(e => ({name: e.name, description: e.description, focus_groups: focusGroupArrayToString(e.focusGroups)})));
+    await knex(TABLE).insert(exercises.map(e => ({
+        name: e.name,
+        description: e.description,
+        focus_groups: focusGroupArrayToString(e.focusGroups),
+        custom: false
+    })));
 }
 
 const focusGroupArrayToString = (groups: MuscleGroup[]): string | null => {
