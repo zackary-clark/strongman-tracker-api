@@ -20,5 +20,29 @@ export const exerciseMutations: Partial<MutationResolvers> = {
     addExercise: async (parent, args, { dataSources, user }) => {
         const createdExercise = await dataSources.exerciseRepo.createCustomExercise(user.id, args.input);
         return { exercise: createdExercise, success: !!createdExercise };
-    }
+    },
+    renameExercise: async (parent, args, { dataSources, user }) => {
+        const editedExercise = await dataSources.exerciseRepo.editExercise(
+            user.id,
+            args.input.id,
+            { name: args.input.name }
+        );
+        return { exercise: editedExercise, success: !!editedExercise };
+    },
+    changeExerciseDescription: async (parent, args, { dataSources, user }) => {
+        const editedExercise = await dataSources.exerciseRepo.editExercise(
+            user.id,
+            args.input.id,
+            { description: args.input.description }
+        );
+        return { exercise: editedExercise, success: !!editedExercise };
+    },
+    changeExerciseFocusGroup: async (parent, args, { dataSources, user }) => {
+        const editedExercise = await dataSources.exerciseRepo.editExercise(
+            user.id,
+            args.input.id,
+            { focusGroups: args.input.focusGroups }
+        );
+        return { exercise: editedExercise, success: !!editedExercise };
+    },
 };

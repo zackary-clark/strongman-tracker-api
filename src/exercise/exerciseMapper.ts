@@ -12,8 +12,17 @@ function toEntity(from: AddExerciseInput, userId: string): ExerciseEntity;
 function toEntity(from: Exercise, userId: string): ExerciseEntity;
 function toEntity(from: Exercise | AddExerciseInput, userId: string): ExerciseEntity {
     return {
-        id: (from as Exercise)?.id,
+        id: (from as Exercise).id,
         user_id: userId,
+        name: from.name,
+        description: from.description,
+        focus_groups: focusGroupArrayToString(from.focusGroups)
+    };
+}
+
+function partialToEntity(from: Partial<Exercise>): Partial<Omit<ExerciseEntity, "user_id">> {
+    return {
+        id: from.id,
         name: from.name,
         description: from.description,
         focus_groups: focusGroupArrayToString(from.focusGroups)
@@ -37,7 +46,7 @@ const focusGroupStringToArray = (s?: string | null): MuscleGroup[] => {
     }
 };
 
-const focusGroupArrayToString = (groups: MuscleGroup[]): string | null => {
+const focusGroupArrayToString = (groups?: MuscleGroup[]): string | null => {
     if (!groups || groups.length < 1) {
         return null;
     } else {
@@ -47,5 +56,6 @@ const focusGroupArrayToString = (groups: MuscleGroup[]): string | null => {
 
 export default {
     toEntity,
-    toQL
+    toQL,
+    partialToEntity,
 };

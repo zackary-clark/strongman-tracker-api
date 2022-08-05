@@ -4,7 +4,10 @@ extend type Query {
 }
 
 extend type Mutation {
-    addExercise(input: AddExerciseInput!): AddExercisePayload
+    addExercise(input: AddExerciseInput!): ExerciseMutationPayload
+    renameExercise(input: RenameExerciseInput!): ExerciseMutationPayload
+    changeExerciseDescription(input: ChangeExerciseDescriptionInput!): ExerciseMutationPayload
+    changeExerciseFocusGroup(input: ChangeExerciseFocusGroupInput!): ExerciseMutationPayload
 }
 
 type Exercise {
@@ -38,7 +41,22 @@ input AddExerciseInput {
     focusGroups: [MuscleGroup!]!
 }
 
-type AddExercisePayload implements MutationPayload {
+input RenameExerciseInput {
+    id: ID!
+    name: String!
+}
+
+input ChangeExerciseDescriptionInput {
+    id: ID!
+    description: String!
+}
+
+input ChangeExerciseFocusGroupInput {
+    id: ID!
+    focusGroups: [MuscleGroup!]!
+}
+
+type ExerciseMutationPayload implements MutationPayload {
     success: Boolean!
     exercise: Exercise
 }

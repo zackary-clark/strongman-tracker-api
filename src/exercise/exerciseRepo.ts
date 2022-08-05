@@ -57,4 +57,17 @@ export class ExerciseRepo extends SQLDataSource {
             throw error;
         }
     }
+
+    public async editExercise(userId: string, id: string, updatedField: Partial<Exercise>): Promise<Exercise> {
+        try {
+            const updatedEntities = await this.knex.from(TABLE)
+                .update(ExerciseMapper.partialToEntity(updatedField), "*")
+                .where("id", id)
+                .andWhere("user_id", userId);
+            return ExerciseMapper.toQL(updatedEntities[0]);
+        } catch (error) {
+            logError(error, "Edit Exercise Failed");
+            throw error;
+        }
+    }
 }
