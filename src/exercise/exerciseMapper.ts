@@ -46,9 +46,9 @@ const focusGroupStringToArray = (s?: string | null): MuscleGroup[] => {
     }
 };
 
-const focusGroupArrayToString = (groups?: MuscleGroup[]): string | null => {
+const focusGroupArrayToString = (groups?: MuscleGroup[]): string | undefined => {
     if (!groups || groups.length < 1) {
-        return null;
+        return undefined;
     } else {
         return "{" + groups.join(",") + "}";
     }
