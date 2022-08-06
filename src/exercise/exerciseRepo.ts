@@ -42,8 +42,7 @@ export class ExerciseRepo extends SQLDataSource {
         return ExerciseMapper.toQL(
             await this.knex
                 .select("*").from(TABLE)
-                .where("id", id)
-                .andWhereRaw("custom = false OR user_id = ?", userId)
+                .whereRaw("id = ? AND (custom = false OR user_id = ?)", [id, userId])
                 .first()
         );
     }
