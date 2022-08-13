@@ -1,4 +1,4 @@
-import { AddProgramInput, Program } from "../../generated/schema";
+import { AddProgramInput, Maybe, Program, Scalars } from "../../generated/schema";
 
 export interface ProgramEntity {
     id: string,
@@ -7,9 +7,16 @@ export interface ProgramEntity {
     user_id: string,
 }
 
+export interface ProgramPreResolver {
+    __typename?: "Program";
+    id: Scalars["ID"];
+    name: Scalars["String"];
+    description?: Maybe<Scalars["String"]>;
+}
+
 function toEntity(from: AddProgramInput, userId: string): ProgramEntity;
-function toEntity(from: Program, userId: string): ProgramEntity;
-function toEntity(from: Program | AddProgramInput, userId: string): ProgramEntity {
+function toEntity(from: ProgramPreResolver, userId: string): ProgramEntity;
+function toEntity(from: ProgramPreResolver | AddProgramInput, userId: string): ProgramEntity {
     return {
         id: (from as Program).id,
         user_id: userId,
@@ -18,7 +25,7 @@ function toEntity(from: Program | AddProgramInput, userId: string): ProgramEntit
     };
 }
 
-function partialToEntity(from: Partial<Program>): Partial<Omit<ProgramEntity, "user_id">> {
+function partialToEntity(from: Partial<ProgramPreResolver>): Partial<Omit<ProgramEntity, "user_id">> {
     return {
         id: from.id,
         name: from.name,
@@ -26,7 +33,7 @@ function partialToEntity(from: Partial<Program>): Partial<Omit<ProgramEntity, "u
     };
 }
 
-function toQL(from: ProgramEntity): Program {
+function toQL(from: ProgramEntity): ProgramPreResolver {
     return {
         id: from.id,
         name: from.name,

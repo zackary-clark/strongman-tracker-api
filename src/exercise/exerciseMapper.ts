@@ -1,4 +1,5 @@
-import { AddExerciseInput, Exercise, MuscleGroup } from "../../generated/schema";
+import { AddExerciseInput, Exercise } from "../../generated/schema";
+import { muscleGroupArrayToString, muscleGroupStringToArray } from "../utils/muscleGroupArrayMapper";
 
 export interface ExerciseEntity {
     id: string,
@@ -16,7 +17,7 @@ function toEntity(from: Exercise | AddExerciseInput, userId: string): ExerciseEn
         user_id: userId,
         name: from.name,
         description: from.description,
-        focus_groups: focusGroupArrayToString(from.focusGroups)
+        focus_groups: muscleGroupArrayToString(from.focusGroups)
     };
 }
 
@@ -25,7 +26,7 @@ function partialToEntity(from: Partial<Exercise>): Partial<Omit<ExerciseEntity, 
         id: from.id,
         name: from.name,
         description: from.description,
-        focus_groups: focusGroupArrayToString(from.focusGroups)
+        focus_groups: muscleGroupArrayToString(from.focusGroups)
     };
 }
 
@@ -33,26 +34,8 @@ const toQL = (entity: ExerciseEntity): Exercise => ({
     id: entity.id,
     name: entity.name,
     description: entity.description,
-    focusGroups: focusGroupStringToArray(entity.focus_groups)
+    focusGroups: muscleGroupStringToArray(entity.focus_groups) ?? []
 });
-
-const focusGroupStringToArray = (s?: string | null): MuscleGroup[] => {
-    if (!s) {
-        return [];
-    } else {
-        const strippedBrackets = s.substring(1, s.length - 1);
-        // @ts-ignore
-        return strippedBrackets.split(",");
-    }
-};
-
-const focusGroupArrayToString = (groups?: MuscleGroup[]): string | undefined => {
-    if (!groups || groups.length < 1) {
-        return undefined;
-    } else {
-        return "{" + groups.join(",") + "}";
-    }
-};
 
 export default {
     toEntity,

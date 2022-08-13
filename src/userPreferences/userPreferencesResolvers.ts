@@ -1,5 +1,5 @@
 import { MutationResolvers, QueryResolvers, UserPreferences, UserPreferencesEditPayload } from "../../generated/schema";
-import { UserPreferencesRepo } from "./userPreferencesRepo";
+import { UserPreferencesRepo } from "./UserPreferencesRepo";
 
 export const userPreferencesQueries: Partial<QueryResolvers> = {
     preferences: async (parent, args, { dataSources, user }) => {

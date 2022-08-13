@@ -1,4 +1,4 @@
-import { MutationResolvers, QueryResolvers } from "../../generated/schema";
+import { MutationResolvers, ProgramResolvers, QueryResolvers } from "../../generated/schema";
 
 export const programQueries: Partial<QueryResolvers> = {
     programs: async (parent, args, { dataSources, user }) => {
@@ -30,4 +30,10 @@ export const programMutations: Partial<MutationResolvers> = {
         );
         return { program: editedProgram, success: !!editedProgram };
     }
+};
+
+export const programResolvers: ProgramResolvers = {
+    workouts: async (parent, args, { dataSources, user }) => {
+        return await dataSources.programmedWorkoutRepo.findAllWithProgramId(user.id, parent.id);
+    },
 };

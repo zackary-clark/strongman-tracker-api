@@ -1,13 +1,13 @@
 import { SQLDataSource } from "datasource-sql";
-import { AddProgramInput, Program } from "../../generated/schema";
+import { AddProgramInput } from "../../generated/schema";
 import { logError } from "../utils/logs";
-import ProgramMapper, { ProgramEntity } from "./programMapper";
+import ProgramMapper, { ProgramEntity, ProgramPreResolver } from "./programMapper";
 
 const TABLE = "program";
 
 export class ProgramRepo extends SQLDataSource {
 
-    public async index(userId: string): Promise<Program[]> {
+    public async index(userId: string): Promise<ProgramPreResolver[]> {
         const programEntities: ProgramEntity[] = await this.knex
             .select("*").from(TABLE)
             .where("user_id", userId)
@@ -15,7 +15,7 @@ export class ProgramRepo extends SQLDataSource {
         return programEntities.map(ProgramMapper.toQL);
     }
 
-    public async findOne(userId: string, id: string): Promise<Program> {
+    public async findOne(userId: string, id: string): Promise<ProgramPreResolver> {
         return ProgramMapper.toQL(
             await this.knex
                 .select("*").from(TABLE)
@@ -25,7 +25,7 @@ export class ProgramRepo extends SQLDataSource {
         );
     }
 
-    public async create(userId: string, input: AddProgramInput): Promise<Program> {
+    public async create(userId: string, input: AddProgramInput): Promise<ProgramPreResolver> {
         try {
             const insertedEntities = await this.knex.into(TABLE)
                     .insert(ProgramMapper.toEntity({...input}, userId), "*");
@@ -36,7 +36,7 @@ export class ProgramRepo extends SQLDataSource {
         }
     }
 
-    public async edit(userId: string, id: string, updatedField: Partial<Program>): Promise<Program> {
+    public async edit(userId: string, id: string, updatedField: Partial<ProgramPreResolver>): Promise<ProgramPreResolver> {
         try {
             const updatedEntities = await this.knex.from(TABLE)
                 .update(ProgramMapper.partialToEntity(updatedField), "*")

@@ -1,12 +1,14 @@
 schema: 'src/schema/**/*.graphql'
 generates:
-    ./generated/schema.ts:
-        config:
-            useIndexSignature: true
-            contextType: ../src/config/apollo/context#Context
-            strictScalars: true
-            scalars:
-              Date: '../src/config/apollo/scalarTypes#DateScalar'
-        plugins:
-            - typescript
-            - typescript-resolvers
+  ./generated/schema.ts:
+    config:
+      useIndexSignature: true
+      contextType: ../src/config/apollo/context#Context
+      strictScalars: true
+      scalars:
+        Date: '../src/config/apollo/scalarTypes#DateScalar'
+      mappers:
+        Program: '../src/program/programMapper#ProgramPreResolver'
+    plugins:
+      - typescript
+      - typescript-resolvers
