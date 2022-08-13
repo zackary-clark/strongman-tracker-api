@@ -3,11 +3,13 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-express";
 import cors from "cors";
 import express from "express";
+import { GraphQLError } from "graphql/error";
 import { getContextFunction } from "./config/apollo/context";
 import { dataSources } from "./config/apollo/dataSources";
-import { generateKeycloak } from "./config/keycloak";
 import { resolvers } from "./config/apollo/resolvers";
 import { typeDefs } from "./config/apollo/typeDefs";
+import { generateKeycloak } from "./config/keycloak";
+import { logError } from "./utils/logs";
 
 const port = process.env.PORT || 8080;
 const origin = process.env.CLIENT_ORIGIN;
@@ -25,7 +27,14 @@ async function startApolloServer() {
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
         dataSources,
         context: getContextFunction(keycloak),
-        csrfPrevention: true
+        csrfPrevention: true,
+        formatError: error => {
+            logError(error, "Apollo Server Caught Error");
+            if (process.env.NODE_ENV !== "development") {
+                return new GraphQLError("Error");
+            }
+            return error;
+        },
     });
 
     await server.start();

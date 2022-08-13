@@ -2,7 +2,8 @@
     "watch": ["src"],
     "ext": "ts",
     "env": {
-        "PORT": "8082"
+        "PORT": "8082",
+        "NODE_ENV": "development"
     },
     "exec": "ts-node ./src/index.ts"
 }
