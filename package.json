@@ -45,7 +45,7 @@
         "pg": "8.7.3"
     },
     "devDependencies": {
-        "@graphql-codegen/cli": "2.10.0",
+        "@graphql-codegen/cli": "2.11.6",
         "@graphql-codegen/typescript": "2.7.2",
         "@graphql-codegen/typescript-resolvers": "2.7.2",
         "@types/cors": "2.8.12",
