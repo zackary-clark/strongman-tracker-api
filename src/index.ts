@@ -40,15 +40,19 @@ async function startApolloServer() {
     app.use(cors({ origin, credentials: true }));
     app.use(keycloak.middleware());
     app.use(server.graphqlPath, async (req, res, next) => {
-        console.log("<======= Token =======>");
-        console.log(req.headers.authorization);
-        // @ts-ignore
-        const userInfo = await keycloak.grantManager.userInfo(req.headers.authorization.substring(7));
-        console.log("<======= UserInfo =======>");
-        console.log(userInfo);
-        console.log("<======= Keycloak Token =======>");
-        const grant = await keycloak.getGrant(req, res);
-        console.log(grant.access_token);
+        try {
+            console.log("<======= Token =======>");
+            console.log(req.headers.authorization);
+            // @ts-ignore
+            const userInfo = await keycloak.grantManager.userInfo(req.headers.authorization.substring(7));
+            console.log("<======= UserInfo =======>");
+            console.log(userInfo);
+            console.log("<======= Keycloak Token =======>");
+            const grant = await keycloak.getGrant(req, res);
+            console.log(grant.access_token);
+        } catch (e) {
+            logError(e, "Caught error while logging keycloak token");
+        }
         next();
     });
     app.use(server.graphqlPath, keycloak.protect()); // applying the keycloak.protect() middleware is what requires users to be logged in
