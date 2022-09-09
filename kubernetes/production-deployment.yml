@@ -72,3 +72,5 @@ spec:
                 secretKeyRef:
                   key: kcResource
                   name: strongman-tracker-secret
+            - name: "NODE_TLS_REJECT_UNAUTHORIZED"
+              value: "0" # Only (sort of) acceptable because nginx ingress is doing our tls termination
