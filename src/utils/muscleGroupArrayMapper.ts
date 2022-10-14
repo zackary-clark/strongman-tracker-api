@@ -11,7 +11,7 @@ export const muscleGroupStringToArray = (s?: string | null): MuscleGroup[] | nul
 };
 
 export const muscleGroupArrayToString = (groups?: Maybe<MuscleGroup[]>): string | null | undefined => {
-    if (groups === null) {
+    if (groups === null || groups?.length === 0) {
         return null;
     } else if (!groups || groups.length < 1) {
         return undefined;
