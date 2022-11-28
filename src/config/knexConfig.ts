@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { Sort } from "../../generated/schema";
 
 const databaseHost = process.env.DB_HOST || "127.0.0.1";
 const databasePort = process.env.DB_PORT || "5432";
@@ -15,3 +16,14 @@ export default {
         database: "postgres"
     }
 } as Knex.Config;
+
+export enum KnexOrderByNullsOption {
+    first = "first",
+    last = "last",
+}
+
+export interface KnexOrderByOption {
+    column: string,
+    order?: Sort,
+    nulls?: KnexOrderByNullsOption,
+}

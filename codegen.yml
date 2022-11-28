@@ -9,6 +9,8 @@ generates:
         Date: '../src/config/apollo/scalarTypes#DateScalar'
       mappers:
         Program: '../src/program/programMapper#ProgramPreResolver'
+        ProgrammedWorkout: '../src/programmedWorkout/programmedWorkoutMapper#ProgrammedWorkoutPreResolver'
+        ProgrammedExercise: '../src/programmedExercise/programmedExerciseMapper#ProgrammedExercisePreResolver'
     plugins:
       - typescript
       - typescript-resolvers

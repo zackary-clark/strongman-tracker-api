@@ -6,9 +6,13 @@ import {
     ProgrammedWorkoutSort,
     Sort
 } from "../../generated/schema";
+import { KnexOrderByNullsOption, KnexOrderByOption } from "../config/knexConfig";
 import { isDefined } from "../utils/isDefined";
 import { logError } from "../utils/logs";
-import ProgrammedWorkoutMapper, { ProgrammedWorkoutEntity } from "./programmedWorkoutMapper";
+import ProgrammedWorkoutMapper, {
+    ProgrammedWorkoutEntity,
+    ProgrammedWorkoutPreResolver
+} from "./programmedWorkoutMapper";
 
 const TABLE = "programmed_workout";
 
@@ -17,7 +21,7 @@ export class ProgrammedWorkoutRepo extends SQLDataSource {
         userId: string,
         filter: ProgrammedWorkoutFilter,
         sort?: ProgrammedWorkoutSort
-    ): Promise<ProgrammedWorkout[]> {
+    ): Promise<ProgrammedWorkoutPreResolver[]> {
         const order = buildOrderByArray(sort);
         const programmedWorkoutEntities = await this.knex
             .select("*").from(TABLE)
@@ -40,7 +44,7 @@ export class ProgrammedWorkoutRepo extends SQLDataSource {
         return programmedWorkoutEntities.map(ProgrammedWorkoutMapper.toQL);
     }
 
-    public async findOne(userId: string, id: string): Promise<ProgrammedWorkout> {
+    public async findOne(userId: string, id: string): Promise<ProgrammedWorkoutPreResolver> {
         return ProgrammedWorkoutMapper.toQL(await this.knex
             .select("*").from(TABLE)
             .where("id", id)
@@ -49,11 +53,11 @@ export class ProgrammedWorkoutRepo extends SQLDataSource {
         );
     }
 
-    public async findAllWithProgramId(userId: string, programId: string): Promise<ProgrammedWorkout[]> {
+    public async findAllWithProgramId(userId: string, programId: string): Promise<ProgrammedWorkoutPreResolver[]> {
         return this.filteredAndSorted(userId, { program: programId });
     }
 
-    public async create(userId: string, input: AddProgrammedWorkoutInput): Promise<ProgrammedWorkout> {
+    public async create(userId: string, input: AddProgrammedWorkoutInput): Promise<ProgrammedWorkoutPreResolver> {
         try {
             const insertedEntities = await this.knex.into(TABLE).insert(ProgrammedWorkoutMapper.toEntity({...input}, userId), "*");
             return ProgrammedWorkoutMapper.toQL(insertedEntities[0]);
@@ -63,7 +67,7 @@ export class ProgrammedWorkoutRepo extends SQLDataSource {
         }
     }
 
-    public async edit(userId: string, id: string, updatedFields: Partial<ProgrammedWorkout>): Promise<ProgrammedWorkout> {
+    public async edit(userId: string, id: string, updatedFields: Partial<ProgrammedWorkout>): Promise<ProgrammedWorkoutPreResolver> {
         try {
             const updatedEntities = await this.knex.from(TABLE)
                 .update(ProgrammedWorkoutMapper.partialToEntity(updatedFields), "*")
@@ -77,19 +81,8 @@ export class ProgrammedWorkoutRepo extends SQLDataSource {
     }
 }
 
-export type ProgrammedWorkoutEditableFields = Partial<Omit<ProgrammedWorkout, "program">>;
+export type ProgrammedWorkoutEditableFields = Partial<Omit<ProgrammedWorkoutPreResolver, "program">>;
 export type ProgrammedWorkoutsEntityEditableFields = Partial<Omit<ProgrammedWorkoutEntity, "user_id" | "program">>;
-
-enum KnexOrderByNullsOption {
-    first = "first",
-    last = "last",
-}
-
-interface KnexOrderByOption {
-    column: string,
-    order?: Sort,
-    nulls?: KnexOrderByNullsOption,
-}
 
 function buildOrderByArray(sort?: ProgrammedWorkoutSort): KnexOrderByOption[] {
     const defaultArray = [

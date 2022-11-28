@@ -13,7 +13,9 @@ export interface ProgrammedWorkoutEntity {
     day?: Maybe<string>,
 }
 
-function toEntity(from: MakeOptional<ProgrammedWorkout, "id" | "focusGroups">, userId: string): ProgrammedWorkoutEntity {
+export type ProgrammedWorkoutPreResolver = Omit<ProgrammedWorkout, "programmedExercises">;
+
+function toEntity(from: MakeOptional<ProgrammedWorkoutPreResolver, "id" | "focusGroups">, userId: string): ProgrammedWorkoutEntity {
     return {
         id: from.id,
         user_id: userId,
@@ -36,7 +38,7 @@ function partialToEntity(from: ProgrammedWorkoutEditableFields): ProgrammedWorko
     };
 }
 
-function toQL(from: ProgrammedWorkoutEntity): ProgrammedWorkout {
+function toQL(from: ProgrammedWorkoutEntity): ProgrammedWorkoutPreResolver {
     if (!from.id) throw new Error("Cannot map from entity to QL with no id.");
     return {
         id: from.id,

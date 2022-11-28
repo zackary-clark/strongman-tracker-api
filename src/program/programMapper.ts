@@ -1,4 +1,4 @@
-import { AddProgramInput, Maybe, Program, Scalars } from "../../generated/schema";
+import { AddProgramInput, Program } from "../../generated/schema";
 
 export interface ProgramEntity {
     id: string,
@@ -7,12 +7,7 @@ export interface ProgramEntity {
     user_id: string,
 }
 
-export interface ProgramPreResolver {
-    __typename?: "Program";
-    id: Scalars["ID"];
-    name: Scalars["String"];
-    description?: Maybe<Scalars["String"]>;
-}
+export type ProgramPreResolver = Omit<Program, "workouts">;
 
 function toEntity(from: AddProgramInput, userId: string): ProgramEntity;
 function toEntity(from: ProgramPreResolver, userId: string): ProgramEntity;

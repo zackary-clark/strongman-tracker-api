@@ -12,7 +12,7 @@ import { generateKeycloak } from "./config/keycloak";
 import { logError } from "./utils/logs";
 
 const port = process.env.PORT || 8080;
-const origin = process.env.CLIENT_ORIGIN || "http://localhost:8081";
+const origin = process.env.CLIENT_ORIGIN || ["http://localhost:8081", "https://studio.apollographql.com"];
 
 async function startApolloServer() {
     const app = express();

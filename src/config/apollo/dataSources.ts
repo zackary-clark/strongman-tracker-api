@@ -1,5 +1,6 @@
 import { ExerciseRepo } from "../../exercise/ExerciseRepo";
 import { ProgramRepo } from "../../program/ProgramRepo";
+import { ProgrammedExerciseRepo } from "../../programmedExercise/ProgrammedExerciseRepo";
 import { ProgrammedWorkoutRepo } from "../../programmedWorkout/ProgrammedWorkoutRepo";
 import { UserPreferencesRepo } from "../../userPreferences/UserPreferencesRepo";
 import knexConfig from "../knexConfig";
@@ -15,6 +16,7 @@ export type Sources = {
     exerciseRepo: ExerciseRepo;
     programRepo: ProgramRepo;
     programmedWorkoutRepo: ProgrammedWorkoutRepo;
+    programmedExerciseRepo: ProgrammedExerciseRepo;
 };
 
 const maxRepo = new MaxRepo(knexConfig);
@@ -24,6 +26,7 @@ const userPreferencesRepo = new UserPreferencesRepo(knexConfig);
 const exerciseRepo = new ExerciseRepo(knexConfig);
 const programRepo = new ProgramRepo(knexConfig);
 const programmedWorkoutRepo = new ProgrammedWorkoutRepo(knexConfig);
+const programmedExerciseRepo = new ProgrammedExerciseRepo(knexConfig);
 
 export const dataSources = (): Sources => ({
     maxRepo,
@@ -33,4 +36,5 @@ export const dataSources = (): Sources => ({
     exerciseRepo,
     programRepo,
     programmedWorkoutRepo,
+    programmedExerciseRepo,
 });
