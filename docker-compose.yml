@@ -8,37 +8,11 @@ services:
       - '5432:5432'
     networks:
       - api-network
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  keycloak:
-    container_name: compose-keycloak
-    image: quay.io/keycloak/keycloak:18.0.2
-    command: ["start", "--auto-build"]
-    depends_on:
-      - db
-    ports:
-      - '8080:8080'
-    networks:
-      - api-network
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      DB_VENDOR: POSTGRES
-      DB_ADDR: db
-      KC_DB_DATABASE: keycloak
-      KC_DB_USERNAME: postgres
-      KC_DB_PASSWORD: tracker
-      KC_HOSTNAME: keycloak
-      KC_HOSTNAME_PORT: 8080
-      KC_HTTP_ENABLED: true
-      KC_HOSTNAME_STRICT: false
-      KC_HOSTNAME_STRICT_HTTPS: false
   api:
     container_name: latest-api
     image: zackaryclark/strongman-tracker-api:latest
     depends_on:
       - db
-      - keycloak
     ports:
       - '8082:8080'
     networks:
@@ -48,6 +22,8 @@ services:
       DB_HOST: db
       DB_USER: postgres
       DB_PASSWORD: tracker
-      KC_URL: "http://keycloak:8080/"
+      JWKS_URI: "https://dev-hhulso4duepd4br4.us.auth0.com/.well-known/jwks.json"
+      AUDIENCE: "http://localhost:8082/graphql"
+      ISSUER: "https://dev-hhulso4duepd4br4.us.auth0.com/"
 networks:
   api-network: {}
