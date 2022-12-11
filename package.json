@@ -9,7 +9,7 @@
         "dev": "concurrently \"nodemon\" \"graphql-codegen --watch\"",
         "docker:buildlocal": "npm run build && docker rmi -f zackaryclark/strongman-tracker-api && docker build ./ -t zackaryclark/strongman-tracker-api",
         "docker:buildarm": "docker build ./ --platform=linux/arm64 -t zackaryclark/strongman-tracker-api:$npm_package_version -t zackaryclark/strongman-tracker-api:latest",
-        "docker:buildx86": "docker build ./ --platform=linux/amd64 -t us-central1-docker.pkg.dev/deft-bazaar-370800/strongman-tracker-api/strongman-tracker-api:$npm_package_version -t us-central1-docker.pkg.dev/deft-bazaar-370800/strongman-tracker-api/strongman-tracker:latest",
+        "docker:buildx86": "docker build ./ --platform=linux/amd64 -t us-central1-docker.pkg.dev/deft-bazaar-370800/strongman-tracker-api/strongman-tracker-api:$npm_package_version -t us-central1-docker.pkg.dev/deft-bazaar-370800/strongman-tracker-api/strongman-tracker-api:latest",
         "docker:buildrelease": "npm run build && npm run docker:buildarm && npm run docker:buildx86",
         "docker:check": "./scripts/checkForDockerDaemon.sh",
         "docker:pusharm": "docker push zackaryclark/strongman-tracker-api:$npm_package_version && docker push zackaryclark/strongman-tracker-api:latest",
