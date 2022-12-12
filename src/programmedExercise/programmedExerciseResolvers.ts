@@ -22,6 +22,9 @@ export const programmedExerciseMutations: Partial<MutationResolvers> = {
         );
         return { success: !!edited, programmedExercise: edited };
     },
+    deleteProgrammedExercise: async (parent, args, { dataSources, user }) => {
+        return await dataSources.programmedExerciseRepo.delete(user.id, args.input.id);
+    },
 };
 
 export const programmedExerciseResolvers: ProgrammedExerciseResolvers = {

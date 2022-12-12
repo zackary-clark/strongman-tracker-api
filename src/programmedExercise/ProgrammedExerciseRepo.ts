@@ -1,11 +1,14 @@
 import { SQLDataSource } from "datasource-sql";
 import {
-    AddProgrammedExerciseInput, ProgrammedExercise,
+    AddProgrammedExerciseInput,
+    ProgrammedExercise,
+    ProgrammedExerciseDeletePayload,
     ProgrammedExercisesFilter,
     ProgrammedExercisesSort,
     Sort
 } from "../../generated/schema";
 import { KnexOrderByNullsOption } from "../config/knexConfig";
+import { EntityNotFoundError } from "../errors/EntityNotFoundError";
 import { isDefined } from "../utils/isDefined";
 import { logError } from "../utils/logs";
 import ProgrammedExerciseMapper, { ProgrammedExercisePreResolver } from "./programmedExerciseMapper";
@@ -65,6 +68,26 @@ export class ProgrammedExerciseRepo extends SQLDataSource {
         } catch (error) {
             logError(error, "Edit Programmed Exercise Failed");
             throw error;
+        }
+    }
+
+    public async delete(userId: string, id: string): Promise<ProgrammedExerciseDeletePayload> {
+        try {
+            const deletedIds = await this.knex.from(TABLE)
+                .where("id", id)
+                .andWhere("user_id", userId)
+                .del("id");
+            const deletedId = deletedIds[0]?.id;
+            if (!deletedId) {
+                throw new EntityNotFoundError(id);
+            }
+            return {
+                success: true,
+                id: deletedId
+            };
+        } catch (error) {
+            logError(error, "Delete Programmed Exercise Failed");
+            return {success: false, id: ""};
         }
     }
 

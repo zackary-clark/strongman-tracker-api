@@ -2,6 +2,7 @@
 .gradle/
 /build/
 .env
+.env.*
 .data
 /bin/
 /generated/
@@ -31,6 +32,7 @@ yarn-error.log*
 *.iml
 *.ipr
 /out/
+.graphqlconfig
 
 ### NetBeans ###
 /nbproject/private/

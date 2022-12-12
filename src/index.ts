@@ -13,7 +13,7 @@ import { typeDefs } from "./config/apollo/typeDefs";
 import { logError } from "./utils/logs";
 
 const port = process.env.PORT || 8080;
-const origin = process.env.CLIENT_ORIGIN || ["http://localhost:8081", "https://studio.apollographql.com"];
+const origin = process.env.CLIENT_ORIGIN || "http://localhost:8081";
 const jwksUri = process.env.JWKS_URI;
 const audience = process.env.AUDIENCE;
 const issuer = process.env.ISSUER;
