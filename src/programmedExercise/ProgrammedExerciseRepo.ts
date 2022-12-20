@@ -5,6 +5,7 @@ import {
     ProgrammedExerciseDeletePayload,
     ProgrammedExercisesFilter,
     ProgrammedExercisesSort,
+    ProtocolInput,
     Sort
 } from "../../generated/schema";
 import { KnexOrderByNullsOption } from "../config/knexConfig";
@@ -96,4 +97,7 @@ export class ProgrammedExerciseRepo extends SQLDataSource {
     }
 }
 
-export type ProgrammedExerciseEditableFields = { order?: number | null };
+export type ProgrammedExerciseEditableFields = {
+    order?: number | null,
+    protocol?: ProtocolInput | null,
+};
