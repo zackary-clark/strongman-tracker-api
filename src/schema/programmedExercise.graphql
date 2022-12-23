@@ -27,7 +27,6 @@ input ProtocolInput {
 }
 
 type Set {
-    order: Int
     repetitions: Int
     weight: Int
     percentage: Int
@@ -37,7 +36,6 @@ type Set {
 }
 
 input SetInput {
-    order: Int
     repetitions: Int
     weight: Int
     percentage: Int
