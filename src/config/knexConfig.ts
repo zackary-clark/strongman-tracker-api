@@ -14,6 +14,10 @@ export default {
         user: databaseUser,
         password: databasePassword,
         database: "postgres"
+    },
+    pool: {
+        max: 8,
+        min: 0,
     }
 } as Knex.Config;
 
