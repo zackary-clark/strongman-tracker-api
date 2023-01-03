@@ -13,6 +13,7 @@ import {
     programmedWorkoutQueries,
     programmedWorkoutResolvers,
 } from "../../programmedWorkout/programmedWorkoutResolvers";
+import { userExerciseUnitMutations, userExerciseUnitQueries } from "../../userExerciseUnit/userExerciseUnitResolvers";
 import { userPreferencesMutations, userPreferencesQueries } from "../../userPreferences/userPreferencesResolvers";
 import { workoutMutations, workoutQueries, workoutResolvers } from "../../workout/workoutResolvers";
 import { dateScalar } from "./dateScalar";
@@ -26,6 +27,7 @@ export const resolvers: Resolvers = {
         ...programQueries,
         ...programmedWorkoutQueries,
         ...programmedExerciseQueries,
+        ...userExerciseUnitQueries,
     },
     Mutation: {
         ...maxMutations,
@@ -36,6 +38,7 @@ export const resolvers: Resolvers = {
         ...programMutations,
         ...programmedWorkoutMutations,
         ...programmedExerciseMutations,
+        ...userExerciseUnitMutations,
     },
     Workout: workoutResolvers,
     Program: programResolvers,
