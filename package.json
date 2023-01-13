@@ -39,7 +39,7 @@
         "datasource-sql": "2.0.1",
         "date-fns": "2.29.1",
         "express": "4.18.1",
-        "express-jwt": "7.7.7",
+        "express-jwt": "8.3.0",
         "graphql": "16.5.0",
         "jwks-rsa": "3.0.0",
         "jws": "4.0.0",
