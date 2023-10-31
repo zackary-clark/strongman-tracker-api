@@ -14,6 +14,14 @@ export const programmedExerciseMutations: Partial<MutationResolvers> = {
         const newProgrammedExercise = await dataSources.programmedExerciseRepo.create(user.id, args.input);
         return { success: !!newProgrammedExercise, programmedExercise: newProgrammedExercise };
     },
+    changeProgrammedExerciseTrainingMax: async (parent, args, { dataSources, user }) => {
+        const edited = await dataSources.programmedExerciseRepo.edit(
+            user.id,
+            args.input.id,
+            { trainingMax: args.input.trainingMax ?? null }
+        );
+        return { success: !!edited, programmedExercise: edited };
+    },
     changeProgrammedExerciseOrder: async (parent, args, { dataSources, user }) => {
         const edited = await dataSources.programmedExerciseRepo.edit(
             user.id,

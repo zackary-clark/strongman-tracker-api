@@ -33,6 +33,7 @@ yarn-error.log*
 *.ipr
 /out/
 .graphqlconfig
+graphql.config.yml
 
 ### NetBeans ###
 /nbproject/private/

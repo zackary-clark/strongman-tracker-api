@@ -98,6 +98,7 @@ export class ProgrammedExerciseRepo extends SQLDataSource {
 }
 
 export type ProgrammedExerciseEditableFields = {
+    trainingMax?: number | null,
     order?: number | null,
     protocol?: ProtocolInput | null,
 };

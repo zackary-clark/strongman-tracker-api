@@ -5,7 +5,8 @@ export interface ProgrammedExerciseEntity {
     id?: Maybe<string>,
     user_id: string,
     programmed_workout: string,
-    exercise: string,
+    exercise: string
+    training_max?: Maybe<number>,
     order?: Maybe<number>,
     protocol?: Maybe<Protocol>
 }
@@ -20,6 +21,7 @@ function toEntity(from: MakeOptional<ProgrammedExercisePreResolver, "id">, userI
         user_id: userId,
         programmed_workout: from.programmedWorkout,
         exercise: from.exercise,
+        training_max: from.trainingMax,
         order: from.order,
         protocol: from.protocol,
     };
@@ -27,6 +29,7 @@ function toEntity(from: MakeOptional<ProgrammedExercisePreResolver, "id">, userI
 
 function partialToEntity(from: ProgrammedExerciseEditableFields): Partial<ProgrammedExerciseEntity> {
     return {
+        training_max: from.trainingMax,
         order: from.order,
         protocol: from.protocol,
     };
@@ -38,6 +41,7 @@ function toQL(from: ProgrammedExerciseEntity): ProgrammedExercisePreResolver {
         id: from.id,
         programmedWorkout: from.programmed_workout,
         exercise: from.exercise,
+        trainingMax: from.training_max,
         order: from.order,
         protocol: from.protocol,
     };
