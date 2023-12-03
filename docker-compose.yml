@@ -22,6 +22,7 @@ services:
       DB_HOST: db
       DB_USER: postgres
       DB_PASSWORD: tracker
+      DB: tracker
       JWKS_URI: "https://dev-hhulso4duepd4br4.us.auth0.com/.well-known/jwks.json"
       AUDIENCE: "http://localhost:8082/graphql"
       ISSUER: "https://dev-hhulso4duepd4br4.us.auth0.com/"
